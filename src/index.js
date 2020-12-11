@@ -1,14 +1,15 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { render } from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "normalize.css";
 
 import App from "./App";
 import { GlobalStyles } from "./globalStyles";
 
 render(
-  <Fragment>
+  <BrowserRouter>
     <GlobalStyles />
     <App />
-  </Fragment>,
+  </BrowserRouter>,
   document.getElementById("root")
 );
