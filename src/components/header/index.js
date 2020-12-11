@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { Background, Container, Frame, Logo, ButtonLink } from "./styles/header";
+import { Background, Container, Logo, ButtonLink } from "./styles/header";
 
 const Header = ({ bg = true, children, ...restProps }) => {
   return bg ? <Background {...restProps}>{children}</Background> : children;
