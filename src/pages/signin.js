@@ -33,7 +33,7 @@ const Signin = () => {
     // Handles invalid input
     const errors = [];
     if (!EMAIL_VALIDATOR.test(email)) errors.push(`${email} is not a valid email address.`);
-    if (password.length < 8) errors.push(`Password must be at least 8 characters long.`);
+    if (!password) errors.push(`Please enter your password.`);
     if (errors.length) {
       return handleChange({
         target: { name: "error", value: errors.join(" ") },
@@ -42,10 +42,10 @@ const Signin = () => {
 
     // Firebase auth
     try {
-      const res = await auth.signInWithEmailAndPassword(email, password);
-      console.log(res);
+      await auth.signInWithEmailAndPassword(email, password);
 
       // Success, pushes to browse page
+      setState(initialStateRef.current);
       history.push(ROUTES.BROWSE);
     } catch (error) {
       console.error("handleSignin Error", error);

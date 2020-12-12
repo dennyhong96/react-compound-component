@@ -5,11 +5,6 @@ import { Container, Title, Frame, Item, Header, Body, Inner } from "./styles/acc
 const ToggleContext = createContext();
 
 const Accordion = ({ children, ...restProps }) => {
-  children.forEach((child) => {
-    if (Array.isArray(child)) {
-      console.log(child);
-    }
-  });
   return (
     <Container {...restProps}>
       <Inner>{children}</Inner>
