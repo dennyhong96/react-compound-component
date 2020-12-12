@@ -1,13 +1,19 @@
-import { Fragment, useState, useRef } from "react";
+import { Fragment, useState, useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import { Form } from "../components";
 import HeaderContainer from "../containers/header";
 import FooterContainer from "../containers/footer";
+import { FirebaseContext } from "../context/firebase";
+import * as ROUTES from "../constants/routes";
 
 // eslint-disable-next-line
 const EMAIL_VALIDATOR = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 const Signin = () => {
+  const { auth } = useContext(FirebaseContext);
+  const history = useHistory();
+
   const initialStateRef = useRef({
     email: "",
     password: "",
@@ -21,7 +27,7 @@ const Signin = () => {
     setState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (evt) => {
+  const handleSignin = async (evt) => {
     evt.preventDefault();
 
     // Handles invalid input
@@ -35,17 +41,31 @@ const Signin = () => {
     }
 
     // Firebase auth
+    try {
+      const res = await auth.signInWithEmailAndPassword(email, password);
+      console.log(res);
+
+      // Success, pushes to browse page
+      history.push(ROUTES.BROWSE);
+    } catch (error) {
+      console.error("handleSignin Error", error);
+      handleChange({
+        target: { name: "error", value: error.message },
+      });
+    }
   };
 
   const isInvalid = () => !(password && email);
 
   return (
     <Fragment>
+      {/* Header */}
       <HeaderContainer>
+        {/* Form */}
         <Form>
           <Form.Title>Sign In</Form.Title>
           {error && <Form.ErrorMsg>{error}</Form.ErrorMsg>}
-          <Form.Base onSubmit={handleSubmit}>
+          <Form.Base onSubmit={handleSignin}>
             <Form.Input
               placeholder="Email address"
               value={email}
@@ -73,6 +93,7 @@ const Signin = () => {
         </Form>
       </HeaderContainer>
 
+      {/* Footer */}
       <FooterContainer />
     </Fragment>
   );
