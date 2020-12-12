@@ -22,8 +22,12 @@ export const GlobalStyles = createGlobalStyle`
     cursor: pointer;
     font: inherit;
     background: inherit;
-    border:none;
-    display:block;
-    width:100%;
+    border: none;
+    display: block;
+    width: 100%;
+  }
+
+  input {
+    border: none;
   }
 `;
