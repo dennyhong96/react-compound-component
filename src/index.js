@@ -3,17 +3,16 @@ import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "normalize.css";
 
+import { AuthProvider } from "./context/auth";
 import App from "./App";
-import { FirebaseContext } from "./context/firebase";
-import { firestore, auth } from "./lib/firebase/firebase.prod";
 import { GlobalStyles } from "./globalStyles";
 
 render(
-  <FirebaseContext.Provider value={{ firestore, auth }}>
+  <AuthProvider>
     <BrowserRouter>
       <GlobalStyles />
       <App />
     </BrowserRouter>
-  </FirebaseContext.Provider>,
+  </AuthProvider>,
   document.getElementById("root")
 );

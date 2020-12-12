@@ -1,20 +1,19 @@
-import { Fragment, useState, useRef, useContext } from "react";
+import { Fragment, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Form } from "../components";
 import HeaderContainer from "../containers/header";
 import FooterContainer from "../containers/footer";
-import { FirebaseContext } from "../context/firebase";
+import { auth } from "../lib/firebase/firebase.prod";
 import * as ROUTES from "../constants/routes";
 
 // eslint-disable-next-line
 const EMAIL_VALIDATOR = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 const Signin = () => {
-  const { auth } = useContext(FirebaseContext);
   const history = useHistory();
 
-  console.log(history.location.state.from);
+  console.log(history.location?.state?.from);
 
   const initialStateRef = useRef({
     email: "",
