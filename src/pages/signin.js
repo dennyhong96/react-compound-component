@@ -14,6 +14,8 @@ const Signin = () => {
   const { auth } = useContext(FirebaseContext);
   const history = useHistory();
 
+  console.log(history.location.state.from);
+
   const initialStateRef = useRef({
     email: "",
     password: "",
@@ -46,7 +48,7 @@ const Signin = () => {
 
       // Success, pushes to browse page
       setState(initialStateRef.current);
-      history.push(ROUTES.BROWSE);
+      history.push(history.location?.state?.from ?? ROUTES.BROWSE);
     } catch (error) {
       console.error("handleSignin Error", error);
       handleChange({
@@ -84,7 +86,12 @@ const Signin = () => {
               Sign In
             </Form.Submit>
             <Form.Text>
-              New to Netflix? <Form.Link to="/signup">Sign up now.</Form.Link>
+              New to Netflix?{" "}
+              <Form.Link
+                to={{ pathname: "/signup", state: { from: history.location?.state?.from } }}
+              >
+                Sign up now.
+              </Form.Link>
             </Form.Text>
             <Form.TextSmall>
               This page is protected by Google reCAPTCHA to ensure you're not a bot. Learn more.

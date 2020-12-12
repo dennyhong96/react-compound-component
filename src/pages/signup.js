@@ -14,6 +14,8 @@ const Signup = () => {
   const { auth } = useContext(FirebaseContext);
   const history = useHistory();
 
+  console.log(history.location.state.from);
+
   const initialStateRef = useRef({
     email: "",
     password: "",
@@ -51,7 +53,8 @@ const Signup = () => {
       });
 
       // Success, pushes to browse page
-      history.push(ROUTES.BROWSE);
+      setState(initialStateRef.current);
+      history.push(history.location?.state?.from ?? ROUTES.BROWSE);
     } catch (error) {
       console.error("handleSignup Error", error);
       handleChange({
@@ -98,7 +101,12 @@ const Signup = () => {
               Sign Up
             </Form.Submit>
             <Form.Text>
-              Already a user? <Form.Link to="/signin">Sign in now.</Form.Link>
+              Already a user?{" "}
+              <Form.Link
+                to={{ pathname: "/signin", state: { from: history.location?.state?.from } }}
+              >
+                Sign in now.
+              </Form.Link>
             </Form.Text>
             <Form.TextSmall>
               This page is protected by Google reCAPTCHA to ensure you're not a bot. Learn more.
