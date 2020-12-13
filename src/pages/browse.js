@@ -1,4 +1,5 @@
 import { useContent } from "../hooks";
+import BrowseContainer from "../containers/browse";
 import selectionFilter from "../utils/selectionFilter";
 
 const Browse = () => {
@@ -6,7 +7,7 @@ const Browse = () => {
   const { films } = useContent("films");
   const slides = selectionFilter({ series, films });
 
-  return <pre style={{ color: "#fff" }}>{JSON.stringify(slides, null, 2)}</pre>;
+  return <BrowseContainer slides={slides} />;
 };
 
 export default Browse;

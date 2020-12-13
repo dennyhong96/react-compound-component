@@ -31,4 +31,8 @@ export const GlobalStyles = createGlobalStyle`
   input {
     border: none;
   }
+
+  ul,ol {
+    list-style:none;
+  }
 `;
