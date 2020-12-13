@@ -7,6 +7,7 @@ import Logo from "../logo.svg";
 import * as ROUTES from "../constants/routes";
 
 const BrowseContainer = ({ slides }) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const {
@@ -37,8 +38,10 @@ const BrowseContainer = ({ slides }) => {
           </Header.Group>
 
           <Header.Group>
+            <Header.Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <Header.Profile>
               <Header.Picture src={user.photoURL} />
+
               <Header.Dropdown>
                 <Header.Group>
                   <Header.Picture src={user.photoURL} />
@@ -60,6 +63,8 @@ const BrowseContainer = ({ slides }) => {
             numquam unde et delectus facilis omnis minus explicabo dolorum soluta voluptates
             exercitationem? Ea, itaque! Sit.
           </Header.Text>
+
+          <Header.PlayButton>Play</Header.PlayButton>
         </Header.Feature>
       </Header>
     </Fragment>

@@ -1,3 +1,4 @@
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -13,6 +14,10 @@ import {
   Picture,
   Profile,
   Dropdown,
+  Search,
+  SearchIcon,
+  SearchInput,
+  PlayButton,
 } from "./styles/header";
 
 const Header = ({ bg = true, children, ...restProps }) => {
@@ -37,6 +42,36 @@ Header.FeatureCallOut = function HeaderFeatureCallOut({ children, ...restProps }
 
 Header.Text = function HeaderText({ children, ...restProps }) {
   return <Text {...restProps}>{children}</Text>;
+};
+
+Header.PlayButton = function HeaderPlayButton({ children, ...restProps }) {
+  return <PlayButton {...restProps}>{children}</PlayButton>;
+};
+
+Header.Search = function HeaderSearch({ searchTerm, setSearchTerm, ...restProps }) {
+  const [searchActive, setSearchActive] = useState();
+  const inputRef = useRef(null);
+
+  return (
+    <Search {...restProps}>
+      <SearchIcon
+        onClick={() => {
+          setSearchActive((prev) => !prev);
+          inputRef.current.focus();
+        }}
+      >
+        <img src="/images/icons/search.png" alt="search" />
+      </SearchIcon>
+
+      <SearchInput
+        ref={inputRef}
+        value={searchTerm}
+        onChange={({ target: { value } }) => setSearchTerm(value)}
+        placeholder="Search films and series"
+        active={searchActive}
+      />
+    </Search>
+  );
 };
 
 Header.Dropdown = function HeaderDropdown({ children, ...restProps }) {
