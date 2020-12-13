@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = firebaseAuth.onAuthStateChanged(function (user) {
-      console.log("onAuthStateChanged", user);
       if (user) {
         const userInfo = {
           displayName: user.displayName,

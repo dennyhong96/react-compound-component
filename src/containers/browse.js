@@ -1,4 +1,5 @@
 import { useState, useEffect, Fragment, useContext } from "react";
+import Fuse from "fuse.js";
 
 import { Loading, Header, Card, Player } from "../components";
 import { AuthContext } from "../context/auth";
@@ -12,6 +13,9 @@ const BrowseContainer = ({ slides }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState([]);
+  const slideRows = slides[category];
+  console.log({ slideRows });
 
   const {
     auth: { user },
@@ -26,7 +30,22 @@ const BrowseContainer = ({ slides }) => {
     }
   }, [profile.displayName]);
 
-  const slideRows = slides[category];
+  useEffect(() => {
+    const fuse = new Fuse(slideRows, {
+      keys: ["data.description", "data.title", "data.genre"],
+      threshold: 0.3,
+    });
+    const results = fuse.search(searchTerm).map(({ item }) => item);
+
+    if (results.length && searchTerm.length > 3 && results.length) {
+      console.log(results);
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchTerm, slideRows]);
+
+  const displayRows = searchResults.length ? searchResults : slideRows;
 
   return profile.displayName ? (
     <Fragment>
@@ -85,7 +104,7 @@ const BrowseContainer = ({ slides }) => {
 
       {/* Cards */}
       <Card.Group>
-        {slideRows.map((slideItem) => (
+        {displayRows.map((slideItem) => (
           <Card key={`${category}=${slideItem.title.toLowerCase()}`}>
             <Card.Title>{slideItem.title}</Card.Title>
             <Card.Entities>
