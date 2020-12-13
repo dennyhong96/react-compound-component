@@ -59,5 +59,17 @@ export const AuthProvider = ({ children }) => {
     });
   }, []);
 
-  return <AuthContext.Provider value={{ auth, dispatch }}>{children}</AuthContext.Provider>;
+  const signOut = async () => {
+    localStorage.removeItem("USER_INFO");
+    try {
+      await auth.signOut();
+      dispatch({ type: "USER_SIGNED_OUT" });
+    } catch (error) {
+      dispatch({ type: "AUTH_ERROR" });
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ auth, dispatch, signOut }}>{children}</AuthContext.Provider>
+  );
 };
