@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment, useContext } from "react";
 
-import { Loading, Header, Card } from "../components";
+import { Loading, Header, Card, Player } from "../components";
 import { AuthContext } from "../context/auth";
 import SelectProfileContainer from "./profile";
 import FooterContainer from "../containers/footer";
@@ -100,11 +100,12 @@ const BrowseContainer = ({ slides }) => {
               ))}
             </Card.Entities>
 
+            {/* Video Player */}
             <Card.Feature category={category}>
-              {/* <Player>
+              <Player>
                 <Player.Button />
                 <Player.Video src="/videos/bunny.mp4" />
-              </Player> */}
+              </Player>
             </Card.Feature>
           </Card>
         ))}

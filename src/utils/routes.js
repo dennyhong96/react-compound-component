@@ -1,16 +1,17 @@
 import { useContext } from "react";
-import { Route, Redirect, useLocation } from "react-router-dom";
+import { Route, Redirect, useLocation, useHistory } from "react-router-dom";
 
 import { AuthContext } from "../context/auth";
 
 export const PublicRoute = ({ component: Component, loggedInRoute, ...restProps }) => {
+  const history = useHistory();
   const {
     auth: { isLoaded, user },
   } = useContext(AuthContext);
 
   if (!isLoaded) return null;
   return user ? (
-    <Redirect to={{ pathname: loggedInRoute }} />
+    <Redirect to={{ pathname: history.location?.state?.from ?? loggedInRoute }} />
   ) : (
     <Route {...restProps} component={Component} />
   );

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 
-import { auth as firebastAuth } from "../../lib/firebase/firebase.prod";
+import { auth as firebaseAuth } from "../../lib/firebase/firebase.prod";
 
 export const AuthContext = createContext();
 
@@ -38,7 +38,8 @@ export const AuthProvider = ({ children }) => {
   const [auth, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   useEffect(() => {
-    firebastAuth.onAuthStateChanged(function (user) {
+    const unsubscribe = firebaseAuth.onAuthStateChanged(function (user) {
+      console.log("onAuthStateChanged", user);
       if (user) {
         const userInfo = {
           displayName: user.displayName,
@@ -57,14 +58,17 @@ export const AuthProvider = ({ children }) => {
         dispatch({ type: "AUTH_ERROR" });
       }
     });
+
+    return unsubscribe;
   }, []);
 
   const signOut = async () => {
     localStorage.removeItem("USER_INFO");
     try {
-      await auth.signOut();
+      await firebaseAuth.signOut();
       dispatch({ type: "USER_SIGNED_OUT" });
     } catch (error) {
+      console.error("signOut ERROR", error);
       dispatch({ type: "AUTH_ERROR" });
     }
   };

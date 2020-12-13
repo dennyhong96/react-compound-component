@@ -13,8 +13,6 @@ const EMAIL_VALIDATOR = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(
 const Signup = () => {
   const history = useHistory();
 
-  console.log(history.location?.state?.from);
-
   const initialStateRef = useRef({
     email: "",
     password: "",
@@ -53,7 +51,6 @@ const Signup = () => {
 
       // Success, pushes to browse page
       setState(initialStateRef.current);
-      history.push(history.location?.state?.from ?? ROUTES.BROWSE);
     } catch (error) {
       console.error("handleSignup Error", error);
       handleChange({
