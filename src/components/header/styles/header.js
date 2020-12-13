@@ -69,6 +69,7 @@ export const TextLink = styled.p`
   margin-right: 30px;
   font-weight: ${({ active }) => (active ? 700 : 400)};
   cursor: pointer;
+  transition: font-weight 0.2s ease;
 
   &:hover {
     font-weight: 700;
